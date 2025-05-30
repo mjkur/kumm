@@ -2,7 +2,13 @@
 
 ## Jak uruchomić kod 
 
-1. Docker:
+0. Wymagania wstępne
+```zsh
+    git clone https://github.com/mjkur/kumm.git
+    cd kumm
+``` 
+
+1. Docker (jeśli posiadasz Dockera i Docker Compose):
 ```zsh
     docker compose up
 ```
