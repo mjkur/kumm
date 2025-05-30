@@ -7,7 +7,11 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.urls import reverse
 import datetime
-from django.contrib import messages # Ensure messages is imported
+from django.contrib import messages 
+from django.db.models import Q 
+from django.utils import timezone
+from functools import reduce
+import operator
 
 # Custom Decorators
 def doctor_required(function):
@@ -25,7 +29,41 @@ def doctor_required(function):
 def index(request):
     if not request.user.is_authenticated:
         return redirect('login')  # Redirect to login if user is not authenticated
-    return render(request, 'kummapp/index.html') # Render the index.html template
+
+    today = timezone.now().date()
+    todays_appointments = Appointment.objects.filter(appointment_date__date=today).count()
+    new_patients_today = Patient.objects.filter(user__date_joined__date=today).count() 
+    
+    pending_check_ins = Appointment.objects.filter(appointment_date__date=today, appointment_date__gte=timezone.now()).count()
+
+    context = {
+        'todays_appointments': todays_appointments,
+        'new_patients_today': new_patients_today,
+        'pending_check_ins': pending_check_ins,
+    }
+    return render(request, 'kummapp/index.html', context)
+
+@login_required
+def patient_search_view(request):
+    query = request.GET.get('query', '').strip()
+    patients = Patient.objects.none() 
+
+    if query:
+        search_terms = query.split()
+        if search_terms:
+            term_queries = []
+            for term in search_terms:
+                term_queries.append(Q(first_name__icontains=term) | Q(last_name__icontains=term))
+            
+            if term_queries:
+                combined_q = reduce(operator.and_, term_queries)
+                patients = Patient.objects.filter(combined_q)
+
+        if patients.count() == 1:
+            # If exactly one patient matches, redirect to their detail page
+            return redirect('patient_detail', patient_id=patients.first().id)
+    
+    return render(request, 'kummapp/patient_list.html', {'patients': patients, 'query': query})
 
 @login_required
 def calendar_view(request):

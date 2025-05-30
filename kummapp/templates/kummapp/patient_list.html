@@ -1,11 +1,17 @@
 {% extends 'kummapp/layout.html' %}
 {% load static %}
 
-{% block title %}Patient List{% endblock %}
+{% block title %}{% if query %}Search Results for "{{ query }}"{% else %}Patient List{% endif %}{% endblock %}
 
 {% block content %}
 <div class="patient-list-container">
-    <h1>Patient List</h1>
+    <h1>{% if query %}Search Results for "{{ query }}"{% else %}Patient List{% endif %}</h1>
+
+    <form method="GET" action="{% url 'patient_search' %}" class="form-inline mb-3">
+        <input type="text" name="query" class="form-control mr-2" placeholder="Search Patients..." value="{{ query|default:'' }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
     <a href="{% url 'new_patient' %}" class="btn">Add New Patient</a>
     <br><br>
     {% if patients %}
@@ -35,7 +41,7 @@
             </tbody>
         </table>
     {% else %}
-        <p>No patients found.</p>
+        <p>{% if query %}No patients found matching "{{ query }}".{% else %}No patients found.{% endif %}</p>
     {% endif %}
 </div>
 {% endblock %}

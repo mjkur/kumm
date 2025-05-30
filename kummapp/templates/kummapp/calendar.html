@@ -7,7 +7,7 @@
     {# FullCalendar CSS #}
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <style>
-        /* Optional: Adjust calendar height or other styles here */
+        
         #calendar {
             max-width: 900px;
             margin: 20px auto;
@@ -25,7 +25,6 @@
         <a href="{% url 'add_appointment' %}" class="btn btn-primary">Schedule New Appointment</a>
     </div>
 
-    {# This div will hold the calendar #}
     <div id='calendar'></div>
 
     {# HTML List View of Appointments #}
@@ -39,13 +38,12 @@
                     <th>Doctor</th>
                     <th>Date & Time</th>
                     <th>Reason</th>
-                    {# Add Notes if it exists in your Appointment model and you want to display it #}
-                    {# <th>Notes</th> #}
+                    
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                {% for appointment in appointments %} {# Changed appt to appointment for clarity in this section #}
+                {% for appointment in appointments %} 
                 <tr>
                     <td>{{ appointment.patient }}</td>
                     <td>{{ appointment.doctor }}</td>
@@ -55,7 +53,6 @@
                     <td>
                         <a href="{% url 'view_appointment' appointment.id %}" class="btn btn-sm btn-info">View</a>
                         <a href="{% url 'edit_appointment' appointment.id %}" class="btn btn-sm btn-warning">Edit</a>
-                        {# Add delete/cancel button if needed #}
                         <a href="{% url 'delete_appointment' appointment.id %}" class="btn btn-sm btn-danger">Cancel</a>
                     </td>
                 </tr>
@@ -80,16 +77,15 @@
                 {% for appt in appointments %}
                 {
                     title: '{{ appt.patient.first_name|escapejs }} {{ appt.patient.last_name|escapejs }} w/ Dr. {{ appt.doctor.last_name|escapejs }}',
-                    start: '{{ appt.appointment_date|date:"Y-m-d\TH:i:s" }}', // ISO8601 format
+                    start: '{{ appt.appointment_date|date:"Y-m-d\TH:i:s" }}', 
                     url: '{% url "view_appointment" appt.id %}',
-                    // You can add more properties here, e.g., color, description
                     description: '{{ appt.reason|truncatewords:10|escapejs }}'
                 },
                 {% endfor %}
             ];
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth', // Or 'timeGridWeek', 'listWeek', etc.
+                initialView: 'dayGridMonth', 
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -97,17 +93,14 @@
                 },
                 events: events,
                 eventClick: function(info) {
-                    // Prevent default browser navigation if URL is present
                     info.jsEvent.preventDefault(); 
                     if (info.event.url) {
                         window.location.href = info.event.url;
                     }
                 },
-                // You can add more FullCalendar options here
-                // e.g., eventDidMount for tooltips with description
+
                 eventDidMount: function(info) {
                     if (info.event.extendedProps && info.event.extendedProps.description) {
-                        // Basic tooltip (consider a library like Tippy.js for better tooltips)
                         info.el.title = info.event.extendedProps.description;
                     }
                 }

@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="dashboard-container">
-    <h1>Welcome, Reception Staff!</h1>
+    <h1>Welcome in KUMM!</h1>
     <p>This is the main dashboard for managing patient information and appointments.</p>
 
     <div class="dashboard-actions">
@@ -18,18 +18,17 @@
             <p>Check today's schedule and manage appointments.</p>
         </div>
         <div class="action-card">
-            <h2>Search Patients (Coming Soon)</h2>
+            <h2><a href="{% url 'patient_search' %}">Search Patients</a></h2>
             <p>Find existing patient records.</p>
         </div>
-        {# Add more action cards as needed #}
     </div>
 
     <div class="quick-stats">
-        <h2>Quick Stats (Placeholder)</h2>
+        <h2>Quick Stats</h2>
         <ul>
-            <li><strong>Today's Appointments:</strong> 5</li>
-            <li><strong>New Patients Today:</strong> 2</li>
-            <li><strong>Pending Check-ins:</strong> 1</li>
+            <li><strong>Today's Appointments:</strong> {{ todays_appointments }}</li>
+            <li><strong>New Patients Today:</strong> {{ new_patients_today }}</li>
+            <li><strong>Pending Check-ins:</strong> {{ pending_check_ins }}</li>
         </ul>
     </div>
 

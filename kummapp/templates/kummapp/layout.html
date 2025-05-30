@@ -16,7 +16,6 @@
                 <li><a href="{% url 'patient_list' %}">Patients</a></li>
                 <li><a href="{% url 'appointment_list' %}">Appointments</a></li>
                 <li><a href="{% url 'calendar' %}">Calendar</a></li>
-                {# Add other primary navigation links here as needed #}
             </ul>
             <ul class="nav-auth">
                 {% if user.is_authenticated %}

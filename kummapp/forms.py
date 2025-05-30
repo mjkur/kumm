@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient, Appointment, Doctor, MedicalRecord # Added MedicalRecord
+from .models import Patient, Appointment, Doctor, MedicalRecord
 
 class PatientForm(forms.ModelForm):
     class Meta:
