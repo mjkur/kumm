@@ -1,0 +1,37 @@
+{% extends 'kummapp/layout.html' %}
+{% load static %}
+
+{% block title %}Reception Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Welcome, Reception Staff!</h1>
+    <p>This is the main dashboard for managing patient information and appointments.</p>
+
+    <div class="dashboard-actions">
+        <div class="action-card">
+            <h2><a href="{% url 'new_patient' %}">Register New Patient</a></h2>
+            <p>Add a new patient to the system.</p>
+        </div>
+        <div class="action-card">
+            <h2><a href="{% url 'calendar' %}">View Appointments</a></h2>
+            <p>Check today's schedule and manage appointments.</p>
+        </div>
+        <div class="action-card">
+            <h2>Search Patients (Coming Soon)</h2>
+            <p>Find existing patient records.</p>
+        </div>
+        {# Add more action cards as needed #}
+    </div>
+
+    <div class="quick-stats">
+        <h2>Quick Stats (Placeholder)</h2>
+        <ul>
+            <li><strong>Today's Appointments:</strong> 5</li>
+            <li><strong>New Patients Today:</strong> 2</li>
+            <li><strong>Pending Check-ins:</strong> 1</li>
+        </ul>
+    </div>
+
+</div>
+{% endblock %}

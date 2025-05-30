@@ -1,0 +1,41 @@
+{% extends 'kummapp/layout.html' %}
+{% load static %}
+
+{% block title %}Patient List{% endblock %}
+
+{% block content %}
+<div class="patient-list-container">
+    <h1>Patient List</h1>
+    <a href="{% url 'new_patient' %}" class="btn">Add New Patient</a>
+    <br><br>
+    {% if patients %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date of Birth</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                    <td>{{ patient.date_of_birth|date:"Y-m-d" }}</td>
+                    <td>{{ patient.email }}</td>
+                    <td>{{ patient.phone_number }}</td>
+                    <td>
+                        <a href="{% url 'patient_detail' patient.id %}" class="btn btn-info btn-sm">View</a>
+                        <a href="{% url 'edit_patient' patient.id %}" class="btn btn-warning btn-sm">Edit</a> 
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No patients found.</p>
+    {% endif %}
+</div>
+{% endblock %}

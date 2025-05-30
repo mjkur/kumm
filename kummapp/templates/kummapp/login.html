@@ -1,0 +1,21 @@
+{% extends 'kummapp/layout.html' %}
+{% load static %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+<div class="login-wrapper">
+    <div class="login-box">
+        <h2>Logowanie</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Zaloguj się</button>
+            {# <p class="forgot"><a href="#">Nie pamiętasz hasła?</a></p> #} {# Placeholder for password reset #}
+        </form>
+        {% if form.errors %}
+            <p class="error-message">Your username and password didn't match. Please try again.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
